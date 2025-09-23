@@ -1,6 +1,7 @@
 /* || General setup */
 
-html, body {
+html,
+body {
   margin: 0;
   padding: 0;
 }
@@ -18,12 +19,18 @@ body {
 
 /* || typography */
 
-font[size="7"], font[size="6"], font[size="5"] {
+font[size="7"],
+font[size="6"],
+font[size="5"] {
   font-family: 'Sonsie One', cursive;
   color: #2a2a2a;
 }
 
-p, input, li, table, label {
+p,
+input,
+li,
+table,
+label {
   font-family: 'Open Sans Condensed', sans-serif;
   color: #2a2a2a;
 }
@@ -44,18 +51,25 @@ font[size="5"] {
   font-size: 2.2rem;
 }
 
-p, li, table {
+p,
+li,
+table {
   font-size: 1.6rem;
   line-height: 1.5;
 }
 
 /* || header layout */
 
-div[class="nav"], article, footer, .secondary {
+div[class="nav"],
+article,
+footer,
+.secondary {
   background-color: green;
 }
 
-article, footer, .secondary {
+article,
+footer,
+.secondary {
   padding: 10px 30px;
 }
 
@@ -143,7 +157,8 @@ table {
   border-collapse: collapse;
 }
 
-th, td {
+th,
+td {
   padding: 10px;
 }
 
@@ -161,7 +176,8 @@ tbody tr:nth-child(odd) {
 
 /* styling content images and audio */
 
-img, audio {
+img,
+audio {
   display: block;
   margin: 0 auto;
 }
@@ -214,12 +230,15 @@ audio {
   width: 150px;
 }
 
-.comment-form input, .comment-form label, .show-hide {
+.comment-form input,
+.comment-form label,
+.show-hide {
   font-size: 1.6rem;
   line-height: 32px;
 }
 
-.comment-form input[type="submit"], .show-hide {
+.comment-form input[type="submit"],
+.show-hide {
   background: #333;
   border: 0;
   color: white;
@@ -250,6 +269,41 @@ audio {
 }
 
 
-body { font-family: Arial, sans-serif; }
-.highlight { background-color: yellow; color: black; }
-.comment-wrapper { display: block; } 
+body {
+  font-family: Arial, sans-serif;
+}
+
+.highlight {
+  background-color: yellow;
+  color: black;
+}
+
+.hidden {
+  display: none !important;
+}
+
+.error {
+  color: #b00020;
+  margin: .5rem 0;
+}
+
+.bears-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 1rem;
+}
+
+.bear-card {
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: .75rem;
+}
+
+.bear-card img {
+  width: 100%;
+  height: auto;
+  border-radius: 6px;
+}
+#q{
+  margin-bottom: 15px;
+}
