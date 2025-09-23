@@ -4,33 +4,88 @@ import { qs } from './utils.js';
 export const initSearch = () => {
   const form = qs('form.search');
   const article = qs('article');
+  if (!form || !article) return;
 
   form.addEventListener('submit', (e) => {
     e.preventDefault();
     clearHighlights(article);
 
-    const key = qs('#q').value.trim();
-    if (!key) return;
+    const q = qs('#q')?.value?.trim();
+    if (!q) return;
 
-    const regex = new RegExp(`(${escapeRegExp(key)})`, 'gi');
-    walkNodes(article, (textNode) => {
-      const { nodeValue } = textNode;
-      if (!nodeValue) return;
+    const terms = q.split(/\s+/).map(escapeRegExp).filter(Boolean);
+    if (!terms.length) return;
 
-      const wrapper = document.createElement('span');
-      wrapper.innerHTML = nodeValue.replace(regex, '<mark class="highlight">$1</mark>');
+    // "foo bar" -> /(foo|bar)/gi
+    const regex = new RegExp(`(${terms.join('|')})`, 'gi');
 
-      if (wrapper.innerHTML !== nodeValue) {
-        textNode.replaceWith(...wrapper.childNodes);
+    // snapshot all target text nodes (avoid mutating during walk)
+    const nodes = collectTextNodes(article);
+
+    // for each node, find all matches first...
+    for (const node of nodes) {
+      const text = node.nodeValue;
+      if (!text || !/\S/.test(text)) continue;
+
+      let m;
+      const ranges = [];
+      regex.lastIndex = 0;
+      while ((m = regex.exec(text)) !== null) {
+        const start = m.index;
+        const end = start + m[0].length;
+        ranges.push([start, end]);
+
+        // safety: avoid infinite loops on zero-length matches
+        if (m.index === regex.lastIndex) regex.lastIndex++;
       }
-    });
+
+      if (!ranges.length) continue;
+
+      // apply from END -> START so indexes stay valid while we split
+      for (let i = ranges.length - 1; i >= 0; i--) {
+        const [start, end] = ranges[i];
+        wrapTextRangeInMark(node, start, end);
+      }
+    }
   });
 };
 
-const walkNodes = (root, onText) => {
-  const walker = document.createTreeWalker(root, NodeFilter.SHOW_TEXT, null);
-  let node;
-  while ((node = walker.nextNode())) onText(node);
+// Collect text nodes while skipping anything already inside a highlight
+const collectTextNodes = (root) => {
+  const walker = document.createTreeWalker(
+    root,
+    NodeFilter.SHOW_TEXT,
+    {
+      acceptNode(node) {
+        if (!node.nodeValue || !/\S/.test(node.nodeValue)) {
+          return NodeFilter.FILTER_REJECT;
+        }
+        if (node.parentNode?.closest?.('mark.highlight')) {
+          return NodeFilter.FILTER_REJECT;
+        }
+        return NodeFilter.FILTER_ACCEPT;
+      }
+    }
+  );
+
+  const out = [];
+  let n;
+  while ((n = walker.nextNode())) out.push(n);
+  return out;
+};
+
+// Split the text node and wrap the match in <mark class="highlight">
+const wrapTextRangeInMark = (textNode, start, end) => {
+  // Split at 'start' -> new node = matchStart
+  const matchStart = textNode.splitText(start);
+  // Split again at match length -> new node afterMatch, match node remains
+  const afterMatch = matchStart.splitText(end - start);
+
+  const mark = document.createElement('mark');
+  mark.className = 'highlight';
+  matchStart.parentNode.insertBefore(mark, matchStart);
+  mark.appendChild(matchStart);
+  // afterMatch is left in place for subsequent (earlier) wraps
 };
 
 const clearHighlights = (root) => {
