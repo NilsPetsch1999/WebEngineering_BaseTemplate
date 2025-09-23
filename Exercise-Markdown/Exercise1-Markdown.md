@@ -53,9 +53,11 @@ const url = await fetchImageUrlFromFile(fileName);
 
 ## (5) Removed remaining bad practices (4 pts)
 
-- Deprecated tags -> <font size="7">Welcome</font>
+### Deprecated tags 
+<font size="7">Welcome to our wildlife website</font>
+<font size="6">The trouble with Bears</font>
 
-- typos & now califation in comments
+### Typos & now califation in comments
 
 // Bad
 var nameValue = nameField.valeu; // typo
@@ -66,23 +68,55 @@ const name = qs('#name').value.trim();
 const comment = qs('#comment').value.trim();
 if (!name || !comment) { /* show error */ }
 
-- No status/error regions for assistive tech
+### Missing semantic HTML elements for structure
 
-//Good 
-<p class="load-status" aria-live="polite">Loading bears…</p>
-<p class="error hidden" data-bears-error aria-live="polite"></p>
+<div class="header">...</div>-> use <header>
+<div class="nav">...</div> -> use <nav> 
 
-- Magic selectors and repetition
+### Inline styles / mixed concerns
+dont use script/style Tag in index.html
+<style>
+  body { font-family: Arial, sans-serif; }
+  .highlight { background-color: yellow; color: black; }
+  .comment-wrapper { display: block; } 
+</style>
 
-// (utils.js)
-export const qs = (sel, root = document) => root.querySelector(sel);
-export const qsa = (sel, root = document) => [...root.querySelectorAll(sel)];
+### Excessive <br> for spacing instead of CSS
+use css instead of <br><br>
 
+### Search form input without a <label>
+accessibility suffers
+<form class="search">
+  <input type="search" name="q" placeholder="Search query">
+  <input type="submit" value="Go!">
+</form>
 
+### Comment toggle uses generic <div> text instead of a proper button & ARIA
+<div class="show-hide">Show comment</div>
 
+### var instead of const/let
+use const/let for clarity.
 
+var list = document.querySelector('.comment-container');
 
+### No form validation (name/comment allowed to be empty)
 
+### Using innerHTML += inside a loop
+moreBears.innerHTML += html;
+
+### Callback hell & nested then() chains
+then()...then() --> use await
+
+### No error handling for fetches --> fails silently
+No safty mechanism. 
+
+### Not verifying image URLs / no placeholder
+Ui can be broken when images dont load
+
+### Hardcoded Content
+
+### Inconsistent casing & naming
+<section class="more_bears">
 
 
 
