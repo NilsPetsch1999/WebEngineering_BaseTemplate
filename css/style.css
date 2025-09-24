@@ -288,8 +288,9 @@ h1, h2, h3{
   border: 0;
   color: white;
 }
+
 h1{
-      font-size: 4rem;
+    font-size: 4rem;
     text-align: center;
     color: white;
     text-shadow: 2px 2px 10px black;

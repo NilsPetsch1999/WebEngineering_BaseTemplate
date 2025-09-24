@@ -8,7 +8,7 @@
 - index.html file
 
 - js/api.js -->  API access (fetch helpers)
-- js/render.js --> rendering
+- js/render.js --> dom
 - js/comments.js --> comments toggle + validation
 - js/search.js --> search highlighting
 - js/utils.js --> helpers
