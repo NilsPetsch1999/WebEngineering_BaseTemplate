@@ -1,5 +1,23 @@
 ### Tasks
 ## (1) Integrate `npm` and a build management tool into your project.
+ 1. npm init -y
+ 2. npm i -D vite
+ 3. added scripts to package.json 
+ "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  }
+ 4. create a vite.config.ts
+  import { defineConfig } from 'vite';
+
+  export default defineConfig({
+    server: { port: 5173, open: true },
+    build: { outDir: 'dist', sourcemap: true }
+  });
+ 5. test it with: 
+    - npm run dev
+    - npm run build
 
 ## (5) Configure your project to use Typescript as your primary development language and adapt the code and file extensions respectively.
 
