@@ -33,7 +33,7 @@ const fetchJSON = async (
     );
   return await res.json();
 };
- 
+   
 /**
  * Fetch the wikitext for the "List_of_ursids" section that contains species tables.
  * (Section index 3 in the starter; we still guard & scan all sections for robustness.)
