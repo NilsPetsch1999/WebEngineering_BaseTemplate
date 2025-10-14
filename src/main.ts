@@ -45,12 +45,15 @@ window.addEventListener('DOMContentLoaded', async () => {
     hide(qs('.load-status'));
   } catch (err) {
     hide(qs('.load-status'));
-    errEl.textContent = `Could not load bears: ${err.message || err}`;
-    errEl.classList.remove('hidden');
+    const msg = (typeof err === 'object' && err !== null && 'message' in err) ? (err as { message: string }).message : String(err);
+    if (errEl) {
+      errEl.textContent = `Could not load bears: ${msg}`;
+      errEl.classList.remove('hidden');
+    }
   }
 });
 
-const safeImageUrl = async (fileName) => {
+const safeImageUrl = async (fileName: any) => {
   try {
     return await fetchImageUrlFromFile(fileName);
   } catch {
@@ -63,7 +66,7 @@ const safeImageUrl = async (fileName) => {
  * Extracts: common name, binomial, image file name, range.
  * Keeps the original order they appear in wikitext.
  */
-export const extractBearsFromSpeciesTables = (wikitext) => {
+export const extractBearsFromSpeciesTables = (wikitext: string) => {
   if (!wikitext) return [];
 
   const blocks = wikitext.split('{{Species table/end}}');
@@ -91,7 +94,7 @@ export const extractBearsFromSpeciesTables = (wikitext) => {
   return bears;
 };
 
-const cleanWikiText = (txt) =>
+const cleanWikiText = (txt: string) =>
   (txt || '')
     .replace(/\[\[([^\]|]+)\|([^\]]+)\]\]/g, '$2') // [[target|label]] -> label
     .replace(/\[\[([^\]]+)\]\]/g, '$1')            // [[target]] -> target

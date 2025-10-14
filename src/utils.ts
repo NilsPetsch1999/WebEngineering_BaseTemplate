@@ -1,7 +1,7 @@
 // js/utils.js
-export const qs = (sel, root = document) => root.querySelector(sel);
-export const qsa = (sel, root = document) => [...root.querySelectorAll(sel)];
-export const el = (tag, attrs = {}, children = []) => {
+export const qs = (sel: string, root = document) => root.querySelector(sel);
+export const qsa = (sel: any, root = document) => [...root.querySelectorAll(sel)];
+export const el = (tag: any, attrs = {}, children = []) => {
   const node = document.createElement(tag);
   Object.entries(attrs).forEach(([k, v]) => {
     if (k === 'class') node.className = v;
@@ -13,9 +13,9 @@ export const el = (tag, attrs = {}, children = []) => {
   return node;
 };
 
-export const debounce = (fn, ms = 250) => {
-  let t;
-  return (...args) => {
+export const debounce = <T extends any[]>(fn: (...args: T) => any, ms = 250) => {
+  let t: number | undefined;
+  return (...args: T) => {
     clearTimeout(t);
     t = setTimeout(() => fn(...args), ms);
   };
@@ -26,15 +26,17 @@ export const placeholderImg = 'assets/placeholder-bear.jpg';
 /**
  * Verify image URL is reachable. If not, return placeholder.
  */
-export const verifyImageUrl = async (url) =>
+export const verifyImageUrl = async (url: unknown) =>
   new Promise(resolve => {
     if (!url) return resolve(placeholderImg);
     const img = new Image();
     img.onload = () => resolve(url);
     img.onerror = () => resolve(placeholderImg);
-    img.src = url;
+    img.src = String(url);
   });
 
-export const show = (node) => node.classList.remove('hidden');
-export const hide = (node) => node.classList.add('hidden');
-export const setText = (node, text) => { node.textContent = text; };
+export const show = (node: { classList: { remove: (arg0: string) => any; }; }) => node.classList.remove('hidden');
+export const hide = (node: Element | null) => {
+  if (node) node.classList.add('hidden');
+};
+export const setText = (node: { textContent: any; }, text: any) => { node.textContent = text; };

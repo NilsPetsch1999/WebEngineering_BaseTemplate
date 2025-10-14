@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "dev": "vite",
-    "build": "vite build",
+    "build": "tsc && vite build",
     "preview": "vite preview"
   },
   "repository": {
@@ -20,6 +20,7 @@
   },
   "homepage": "https://github.com/NilsPetsch1999/WebEngineering_BaseTemplate#readme",
   "devDependencies": {
+    "typescript": "^5.9.3",
     "vite": "^7.1.9"
   }
 }

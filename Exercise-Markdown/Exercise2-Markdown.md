@@ -21,6 +21,27 @@
 
 ## (5) Configure your project to use Typescript as your primary development language and adapt the code and file extensions respectively.
 
+  1. npm i -D typescript
+  2. tsconfig.json
+  {
+  "compilerOptions": {
+    "target": "ES2020",
+    "useDefineForClassFields": true,
+    "module": "ESNext",
+    "lib": ["ES2020", "DOM", "DOM.Iterable"],
+    "skipLibCheck": true,
+    "moduleResolution": "Bundler",
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "noEmit": true,
+    "strict": true
+  },
+  "include": ["src"]
+}
+3. setting up src folder with ts files
+4. refactoring the js to ts files. 
+5. testing application after refactoring. Still works.
+
 ## (3) Use ESLint and Prettier inside your project - rulesets can be found below.
 
 ## (2) Keep your builds clear and add dependencies to the right build.
