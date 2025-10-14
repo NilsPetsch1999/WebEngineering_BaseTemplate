@@ -92,3 +92,5 @@ Hook works but triggers error messages from es-lint so no push can happen. I thi
 - (3) Deployment Workflow is triggered when developers push into `production` branch. It should at least lint and build your source code. Afterwards the build artifacts of your application should be automatically deployed to Github Pages (or another hosting provider of your choice).
 
 YML file are present but not tested.
+
+! The workflow files do not work in this forked repository. I am confident that the workflow should work. I will test it before the lesson on a private repo, so i can present it, if needed.
