@@ -6,7 +6,7 @@ export const renderBearCard = ({ name, binomial, image, range }) => {
   const img = el('img', { src: image, alt: `Image of ${name}` });
   const title = el('p', { class: 'bear-title' }, [
     el('strong', { text: name }),
-    document.createTextNode(` (${binomial})`)
+    document.createTextNode(` (${binomial})`),
   ]);
   const rangeP = el('p', { text: `Range: ${range || '—'}` });
   card.append(img, title, rangeP);
@@ -16,7 +16,9 @@ export const renderBearCard = ({ name, binomial, image, range }) => {
 export const mountBearCards = (container, bears) => {
   container.innerHTML = '';
   const frag = document.createDocumentFragment();
-  bears.forEach(b => frag.append(renderBearCard(b)));
+  bears.forEach((b) => {
+    frag.append(renderBearCard(b));
+  });
   container.append(frag);
 };
 

@@ -1,5 +1,5 @@
 // js/search.js
-import { qs } from './utils.js';
+import { qs } from './utils';
 
 export const initSearch = () => {
   const form = qs('form.search');
@@ -10,11 +10,11 @@ export const initSearch = () => {
     e.preventDefault();
     clearHighlights(article);
 
-    const q = qs('#q')?.value?.trim();
+    const q = (qs('#q') as HTMLInputElement | null)?.value?.trim();
     if (!q) return;
 
     const terms = q.split(/\s+/).map(escapeRegExp).filter(Boolean);
-    if (!terms.length) return;
+    if (terms.length === 0) return;
 
     // "foo bar" -> /(foo|bar)/gi
     const regex = new RegExp(`(${terms.join('|')})`, 'gi');
@@ -39,7 +39,7 @@ export const initSearch = () => {
         if (m.index === regex.lastIndex) regex.lastIndex++;
       }
 
-      if (!ranges.length) continue;
+      if (ranges.length === 0) continue;
 
       // apply from END -> START so indexes stay valid while we split
       for (let i = ranges.length - 1; i >= 0; i--) {
@@ -51,22 +51,22 @@ export const initSearch = () => {
 };
 
 // Collect text nodes while skipping anything already inside a highlight
-const collectTextNodes = (root) => {
-  const walker = document.createTreeWalker(
-    root,
-    NodeFilter.SHOW_TEXT,
-    {
-      acceptNode(node) {
-        if (!node.nodeValue || !/\S/.test(node.nodeValue)) {
-          return NodeFilter.FILTER_REJECT;
-        }
-        if (node.parentNode?.closest?.('mark.highlight')) {
-          return NodeFilter.FILTER_REJECT;
-        }
-        return NodeFilter.FILTER_ACCEPT;
+const collectTextNodes = (root: Node) => {
+  const walker = document.createTreeWalker(root, NodeFilter.SHOW_TEXT, {
+    acceptNode(node) {
+      if (!node.nodeValue || !/\S/.test(node.nodeValue)) {
+        return NodeFilter.FILTER_REJECT;
       }
-    }
-  );
+      if (
+        node.parentNode &&
+        node.parentNode instanceof Element &&
+        node.parentNode.closest('mark.highlight')
+      ) {
+        return NodeFilter.FILTER_REJECT;
+      }
+      return NodeFilter.FILTER_ACCEPT;
+    },
+  });
 
   const out = [];
   let n;
@@ -75,7 +75,10 @@ const collectTextNodes = (root) => {
 };
 
 // Split the text node and wrap the match in <mark class="highlight">
-const wrapTextRangeInMark = (textNode, start, end) => {
+const wrapTextRangeInMark = (textNode: Node, start: number, end: number) => {
+  // Ensure textNode is a Text node before calling splitText
+  if (!(textNode instanceof Text)) return;
+
   // Split at 'start' -> new node = matchStart
   const matchStart = textNode.splitText(start);
   // Split again at match length -> new node afterMatch, match node remains
@@ -83,17 +86,21 @@ const wrapTextRangeInMark = (textNode, start, end) => {
 
   const mark = document.createElement('mark');
   mark.className = 'highlight';
-  matchStart.parentNode.insertBefore(mark, matchStart);
-  mark.appendChild(matchStart);
+  if (matchStart.parentNode) {
+    matchStart.parentNode.insertBefore(mark, matchStart);
+    mark.appendChild(matchStart);
+  }
   // afterMatch is left in place for subsequent (earlier) wraps
 };
 
-const clearHighlights = (root) => {
+const clearHighlights = (root: Element) => {
   root.querySelectorAll('mark.highlight').forEach((mark) => {
     const parent = mark.parentNode;
-    parent.replaceChild(document.createTextNode(mark.textContent), mark);
-    parent.normalize();
+    if (parent) {
+      parent.replaceChild(document.createTextNode(mark.textContent), mark);
+      parent.normalize();
+    }
   });
 };
 
-const escapeRegExp = (s) => s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+const escapeRegExp = (s: string) => s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');

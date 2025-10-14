@@ -45,12 +45,18 @@ window.addEventListener('DOMContentLoaded', async () => {
     hide(qs('.load-status'));
   } catch (err) {
     hide(qs('.load-status'));
-    errEl.textContent = `Could not load bears: ${err.message || err}`;
-    errEl.classList.remove('hidden');
+    const msg =
+      typeof err === 'object' && err !== null && 'message' in err
+        ? (err as { message: string }).message
+        : String(err);
+    if (errEl) {
+      errEl.textContent = `Could not load bears: ${msg}`;
+      errEl.classList.remove('hidden');
+    }
   }
 });
 
-const safeImageUrl = async (fileName) => {
+const safeImageUrl = async (fileName: any) => {
   try {
     return await fetchImageUrlFromFile(fileName);
   } catch {
@@ -63,7 +69,7 @@ const safeImageUrl = async (fileName) => {
  * Extracts: common name, binomial, image file name, range.
  * Keeps the original order they appear in wikitext.
  */
-export const extractBearsFromSpeciesTables = (wikitext) => {
+export const extractBearsFromSpeciesTables = (wikitext: string) => {
   if (!wikitext) return [];
 
   const blocks = wikitext.split('{{Species table/end}}');
@@ -80,10 +86,10 @@ export const extractBearsFromSpeciesTables = (wikitext) => {
       if (!nameMatch || !binomMatch) continue;
 
       bears.push({
-        name: nameMatch[1].trim(),            // common name as in wiki
-        binomial: binomMatch[1].trim(),       // scientific name
+        name: nameMatch[1].trim(), // common name as in wiki
+        binomial: binomMatch[1].trim(), // scientific name
         imageFile: imgMatch ? imgMatch[1].trim() : null,
-        range: rangeMatch ? cleanWikiText(rangeMatch[1]) : '—'
+        range: rangeMatch ? cleanWikiText(rangeMatch[1]) : '—',
       });
     }
   }
@@ -91,10 +97,10 @@ export const extractBearsFromSpeciesTables = (wikitext) => {
   return bears;
 };
 
-const cleanWikiText = (txt) =>
+const cleanWikiText = (txt: string) =>
   (txt || '')
     .replace(/\[\[([^\]|]+)\|([^\]]+)\]\]/g, '$2') // [[target|label]] -> label
-    .replace(/\[\[([^\]]+)\]\]/g, '$1')            // [[target]] -> target
+    .replace(/\[\[([^\]]+)\]\]/g, '$1') // [[target]] -> target
     .replace(/{{nbsp}}/g, ' ')
     .replace(/<[^>]+>/g, '')
     .replace(/\s+/g, ' ')
