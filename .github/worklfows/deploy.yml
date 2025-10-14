@@ -6,11 +6,11 @@ on:
 
 permissions:
   contents: read
-  pages: write         # required for actions/deploy-pages
-  id-token: write      # required for actions/deploy-pages
+  pages: write # required for actions/deploy-pages
+  id-token: write # required for actions/deploy-pages
 
 concurrency:
-  group: "pages"
+  group: 'pages'
   cancel-in-progress: true
 
 jobs:
