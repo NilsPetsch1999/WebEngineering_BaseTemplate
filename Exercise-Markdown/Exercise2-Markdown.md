@@ -44,7 +44,25 @@
 
 ## (3) Use ESLint and Prettier inside your project - rulesets can be found below.
 
+1. npm i -D eslint @typescript-eslint/parser @typescript-eslint/eslint-plugin eslint-config-standard-with-typescript eslint-plugin-import eslint-plugin-n eslint-plugin-promise prettier eslint-config-prettier eslint-plugin-prettier
+2. created .eslintrc.cjs, tsconfig.eslint.json, .eslintignore, .prettierrc, .prettierignore
+3. adjusted package.json
+"scripts": {
+    "dev": "vite",
+    "build": "tsc && vite build",
+    "preview": "vite preview",
+    "lint": "eslint \"src/**/*.{ts,js}\"",
+    "lint:fix": "eslint \"src/**/*.{ts,js}\" --fix",
+    "format": "prettier --write \"src/**/*.{ts,js}\"",
+    "format:check": "prettier --check \"src/**/*.{ts,js}\""
+  }
+4. npm run lint --> npx eslint \"src/**/*.{ts,js}\", shows typescript errors
+5. npm run format --> npx prettier --check "src/**/*.{ts,js}" --> which files are formated
+
+
 ## (2) Keep your builds clear and add dependencies to the right build.
+
+1. tried to do that but dont really knopw what is meant by that. 
 
 ## (2) Define the following tasks within `npm scripts`:
   * `dev`: starts the development server.
@@ -53,6 +71,17 @@
   * `lint:fix`: runs and also fixes all issues found by ESLint.
   * `format`: formats all `.js` and `.ts` files in your projects `/src` directory.
   * `format:check`: checks if the files in the `/src` directory are formatted according to Prettier's rules.
+
+  See package.json : 
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc && vite build",
+    "preview": "vite preview",
+    "lint": "eslint \"src/**/*.{ts,js}\"",
+    "lint:fix": "eslint \"src/**/*.{ts,js}\" --fix",
+    "format": "prettier --write \"src/**/*.{ts,js}\"",
+    "format:check": "prettier --check \"src/**/*.{ts,js}\""
+  },
 
 ## (2) Configure a pre-commit hook that lints and formats your code using [husky](https://typicode.github.io/husky/) and [lint-staged](https://github.com/lint-staged/lint-staged). A tutorial can be found [here](https://dev.to/shashwatnautiyal/complete-guide-to-eslint-prettier-husky-and-lint-staged-fh9).
 

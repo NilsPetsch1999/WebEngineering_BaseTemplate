@@ -2,17 +2,36 @@
 const BASE = 'https://en.wikipedia.org/w/api.php';
 const ORIGIN = { origin: '*' };
 
-const toQS = (params: string | string[][] | Record<string, string> | URLSearchParams | undefined) => new URLSearchParams(params).toString();
+const toQS = (
+  params:
+    | string
+    | string[][]
+    | Record<string, string>
+    | URLSearchParams
+    | undefined
+) => new URLSearchParams(params).toString();
 
-const fetchJSON = async (params: string | Record<string, string> | URLSearchParams | string[][] | undefined) => {
+const fetchJSON = async (
+  params:
+    | string
+    | Record<string, string>
+    | URLSearchParams
+    | string[][]
+    | undefined
+) => {
   const paramsObj =
-    typeof params === 'object' && !Array.isArray(params) && !(params instanceof URLSearchParams)
+    typeof params === 'object' &&
+    !Array.isArray(params) &&
+    !(params instanceof URLSearchParams)
       ? params
       : {};
   const url = `${BASE}?${toQS({ ...paramsObj, ...ORIGIN })}`;
   const res = await fetch(url);
-  if (!res.ok) throw new Error(`HTTP ${res.status} while fetching ${(params && typeof params === 'object' && 'action' in params) ? (params as any).action : ''}`);
-  return res.json();
+  if (!res.ok)
+    throw new Error(
+      `HTTP ${res.status} while fetching ${params && typeof params === 'object' && 'action' in params ? (params as any).action : ''}`
+    );
+  return await res.json();
 };
 
 /**
@@ -29,10 +48,10 @@ export const fetchUrsidsWikitext = async () => {
         page: 'List_of_ursids',
         prop: 'wikitext',
         section: section.toString(),
-        format: 'json'
+        format: 'json',
       });
       const wikitext = data?.parse?.wikitext?.['*'];
-      if (wikitext && wikitext.includes('{{Species table')) return wikitext;
+      if (wikitext?.includes('{{Species table')) return wikitext;
     } catch {
       // try next section
     }
@@ -42,7 +61,7 @@ export const fetchUrsidsWikitext = async () => {
     action: 'parse',
     page: 'List_of_ursids',
     prop: 'wikitext',
-    format: 'json'
+    format: 'json',
   });
   return whole?.parse?.wikitext?.['*'] ?? '';
 };
@@ -53,12 +72,15 @@ export const fetchImageUrlFromFile = async (fileName: any) => {
     titles: `File:${fileName}`,
     prop: 'imageinfo',
     iiprop: 'url',
-    format: 'json'
+    format: 'json',
   });
   const pages = data?.query?.pages || {};
   const first = Object.values(pages)[0];
   const url =
-    first && typeof first === 'object' && 'imageinfo' in first && Array.isArray((first as any).imageinfo)
+    first &&
+    typeof first === 'object' &&
+    'imageinfo' in first &&
+    Array.isArray((first as any).imageinfo)
       ? (first as any).imageinfo[0]?.url || null
       : null;
   return url;

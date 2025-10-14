@@ -14,7 +14,7 @@ export const initSearch = () => {
     if (!q) return;
 
     const terms = q.split(/\s+/).map(escapeRegExp).filter(Boolean);
-    if (!terms.length) return;
+    if (terms.length === 0) return;
 
     // "foo bar" -> /(foo|bar)/gi
     const regex = new RegExp(`(${terms.join('|')})`, 'gi');
@@ -39,7 +39,7 @@ export const initSearch = () => {
         if (m.index === regex.lastIndex) regex.lastIndex++;
       }
 
-      if (!ranges.length) continue;
+      if (ranges.length === 0) continue;
 
       // apply from END -> START so indexes stay valid while we split
       for (let i = ranges.length - 1; i >= 0; i--) {
@@ -52,21 +52,21 @@ export const initSearch = () => {
 
 // Collect text nodes while skipping anything already inside a highlight
 const collectTextNodes = (root: Node) => {
-  const walker = document.createTreeWalker(
-    root,
-    NodeFilter.SHOW_TEXT,
-    {
-      acceptNode(node) {
-        if (!node.nodeValue || !/\S/.test(node.nodeValue)) {
-          return NodeFilter.FILTER_REJECT;
-        }
-        if (node.parentNode && (node.parentNode instanceof Element) && node.parentNode.closest('mark.highlight')) {
-          return NodeFilter.FILTER_REJECT;
-        }
-        return NodeFilter.FILTER_ACCEPT;
+  const walker = document.createTreeWalker(root, NodeFilter.SHOW_TEXT, {
+    acceptNode(node) {
+      if (!node.nodeValue || !/\S/.test(node.nodeValue)) {
+        return NodeFilter.FILTER_REJECT;
       }
-    }
-  );
+      if (
+        node.parentNode &&
+        node.parentNode instanceof Element &&
+        node.parentNode.closest('mark.highlight')
+      ) {
+        return NodeFilter.FILTER_REJECT;
+      }
+      return NodeFilter.FILTER_ACCEPT;
+    },
+  });
 
   const out = [];
   let n;
