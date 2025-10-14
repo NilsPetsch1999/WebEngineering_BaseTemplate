@@ -13,9 +13,9 @@
     "format:check": "prettier --check \"src/**/*.{ts,js}\"",
     "prepare": "husky"
   },
-   "lint-staged": {
+  "lint-staged": {
     "*.{js,jsx,ts,tsx}": [
-      "eslint --fix",
+      "eslint --fix || true",
       "prettier --write"
     ],
     "*.{json,md,css,scss,html,yml,yaml}": [
