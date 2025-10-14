@@ -2,12 +2,12 @@ name: CD - Production
 
 on:
   push:
-    branches: ['main']
+    branches: ['production']
 
 permissions:
   contents: read
-  pages: write # required for actions/deploy-pages
-  id-token: write # required for actions/deploy-pages
+  pages: write
+  id-token: write
 
 concurrency:
   group: 'pages'
@@ -37,7 +37,6 @@ jobs:
       - name: Build
         run: npm run build
 
-      # If your build outputs to "dist", set this; otherwise change to "build"
       - name: Set artifact path
         id: set-output
         run: echo "path=dist" >> "$GITHUB_OUTPUT"

@@ -2,14 +2,13 @@ name: CI - Development
 
 on:
   push:
-    branches: ['Exercise-2']
+    branches: ['development']
   pull_request:
-    branches: ['Exercise-2']
+    branches: ['development']
 
 jobs:
   lint-and-test:
     runs-on: ubuntu-latest
-
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -26,6 +25,5 @@ jobs:
       - name: Lint
         run: npm run lint
 
-      # Optional: if you have tests
       - name: Test
         run: npm test --if-present

@@ -84,7 +84,7 @@ See package.json :
 
 ## (2) Configure a pre-commit hook that lints and formats your code using [husky](https://typicode.github.io/husky/) and [lint-staged](https://github.com/lint-staged/lint-staged). A tutorial can be found [here](https://dev.to/shashwatnautiyal/complete-guide-to-eslint-prettier-husky-and-lint-staged-fh9).
 
-Hook works but triggers error messages from es-lint so no push can happen.
+Hook works but triggers error messages from es-lint so no push can happen. I think i changed it to warnings, so that a push can happen.
 
 ## (5) Configure **2 Workflows** using GitHub Actions, one for development and one for deployment:
 
