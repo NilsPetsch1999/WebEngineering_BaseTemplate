@@ -66,7 +66,7 @@ Fix application code and answer the questions:
 
 
 ## 2. Dependency- and Build Management Playground
-Build the application with ``npm`` and a build and a dependency management tool of your choice (e.g. [Vite](https://vitejs.dev/), [Webpack](https://webpack.js.org/), or others). Additionally, refactor the comments section to be a web component using shadow dom and templates.
+Build the application with ``npm`` and a build and a dependency management tool of your choice (e.g. [Vite](https://vitejs.dev/), [Webpack](https://webpack.js.org/), or others). 
 
 ### Tasks
 * (1) Integrate `npm` and a build management tool into your project.
