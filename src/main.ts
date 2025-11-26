@@ -1,4 +1,5 @@
 // js/main.js
+import './comment-component.ts';
 import { fetchUrsidsWikitext, fetchImageUrlFromFile } from './api.js';
 import { mountBearCards, setLoadStatus } from './render.js';
 import { initComments } from './comments.js';
