@@ -92,3 +92,75 @@
     </table>
   </section>
 </template>
+
+
+<style scoped>
+
+
+    table{
+        width: 100%;
+        background-color: #dde;
+        border-collapse: collapse;
+        font-family: 'Open Sans Condensed', sans-serif;
+        color: #2a2a2a;
+        box-sizing: border-box;
+        text-indent: initial;
+        unicode-bidi: isolate;
+        border-spacing: 2px;
+        border-color: gray;
+        display: table;
+    }
+    thead{
+        display: table-header-group;
+        vertical-align: middle;
+        unicode-bidi: isolate;
+        border-color: inherit;
+    }
+    tbody{
+        display: table-row-group;
+        vertical-align: middle;
+        unicode-bidi: isolate;
+        border-color: inherit;
+    }
+    thead tr{
+        display: table-row;
+        vertical-align: inherit;
+        unicode-bidi: isolate;
+        border-color: inherit;
+    }
+    tbody tr{
+        background-color: #def;
+        display: table-row;
+        vertical-align: inherit;
+        unicode-bidi: isolate;
+        border-color: inherit;
+    }
+
+    td{
+        text-align: center;
+        padding: 10px;
+        display: table-cell;
+        vertical-align: inherit;
+        unicode-bidi: isolate;
+    }
+
+    th{
+        text-align: center;
+        padding: 10px;
+        display: table-cell;
+        vertical-align: inherit;
+        unicode-bidi: isolate;
+    }
+
+    caption {
+        font-size: 1rem;
+        font-weight: bold;
+        margin-bottom: 1rem;
+    }
+    :deep(tbody tr:nth-child(odd)) {
+    background-color: #def;
+    }
+
+    
+
+</style>

@@ -10,3 +10,14 @@
     </ul>
   </aside>
 </template>
+
+
+<style scoped>
+    .secondary {
+        flex: 2;
+        padding: 10px 30px;
+        background-color: green;
+        display: block; 
+        border-radius: 4px;
+    }
+</style>

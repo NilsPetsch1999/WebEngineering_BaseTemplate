@@ -9,3 +9,20 @@
     </p>
   </header>
 </template>
+
+<style scoped>
+    
+    h2{
+        font-family: 'Georgia', 'Times New Roman', serif;
+        font-size: 3rem;
+        text-align: center;
+        color: #2a2a2a;
+        font-style: italic;
+        font-weight: bold;
+    }
+    p{
+        font-family: 'Arial', serif;
+
+    }
+
+</style>

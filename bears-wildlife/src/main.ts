@@ -1,7 +1,8 @@
-import './assets/style.css'
+import './assets/style.css';
+import { createApp } from 'vue';
+import App from './App.vue';
+import highlight from '@/directives/highlight';
 
-import { createApp } from 'vue'
-import App from './App.vue'
-
-
-createApp(App).mount('#app')
+const app = createApp(App);
+app.directive('highlight', highlight);
+app.mount('#app');

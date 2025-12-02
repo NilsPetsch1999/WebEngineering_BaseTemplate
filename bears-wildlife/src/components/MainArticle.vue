@@ -19,3 +19,14 @@ import MoreBearsSection from './MoreBearsSection.vue';
     <MoreBearsSection />
   </article>
 </template>
+
+<style scoped>
+    article {
+        flex: 5;
+        margin-right: 10px;
+        padding: 10px 30px; 
+        background-color: green;
+        border-radius: 4px;
+    }
+    
+</style>

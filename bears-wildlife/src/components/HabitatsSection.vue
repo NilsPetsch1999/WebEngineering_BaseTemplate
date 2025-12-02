@@ -27,3 +27,10 @@
     </figure>
   </section>
 </template>
+
+
+<style scoped>
+    p{
+        font-family: "Arial", sans-serif;
+    }
+</style>

@@ -1,13 +1,17 @@
 <script setup lang="ts">
 import { ref } from 'vue';
+import { useSearch } from '@/composables/useSearch';
 
 const query = ref('');
+const { setSearch } = useSearch();
 
 const onSearchSubmit = (e: Event) => {
   e.preventDefault();
-  // later you can hook in your highlight logic from search.ts
+  console.log("SUBMIT FIRED, query:", query.value);
+  setSearch(query.value);
 };
 </script>
+
 
 <template>
     <div class="nav">
@@ -18,22 +22,11 @@ const onSearchSubmit = (e: Event) => {
         <li><a href="#">Blog</a></li>
       </ul>
 
-      <form
-        class="search"
-        role="search"
-        aria-label="Search site"
-        @submit="onSearchSubmit"
-      >
-        <label for="q" class="visually-hidden" hidden>Search query</label>
-        <input
-          id="q"
-          type="search"
-          name="q"
-          placeholder="Search"
-          v-model="query"
-        />
-        <button id ="searchBtn" type="submit">Go</button>
+      <form @submit="onSearchSubmit" style="display:flex;align-items:center;gap:10px;">
+        <input id="q" type="search" v-model="query">
+        <button type="submit">Go</button>
       </form>
+
     </div>
 </template>
 
@@ -51,15 +44,6 @@ const onSearchSubmit = (e: Event) => {
     border-radius: 4px;
 }
 
-::v-deep h1 {
-  font-family: 'Georgia', 'Times New Roman', serif;
-  font-size: 4rem;
-  font-style: italic;
-  font-weight: bold;
-  text-align: center;
-  color: #fff;
-  text-shadow: 2px 2px 4px #999, 4px 4px 8px #666;
-}
 
 .nav{
   height: 50px;

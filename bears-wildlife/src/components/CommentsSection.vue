@@ -61,3 +61,12 @@ const handleSubmit = (payload: Comment) => {
     </div>
   </section>
 </template>
+
+<style scoped>
+.comments{
+  background-color: #def;
+  padding: 10px;
+  background-color: #def;
+    padding: 10px;
+}
+</style>

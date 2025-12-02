@@ -7,7 +7,7 @@ import Header from './components/Header.vue'
 </script>
 
 <template>
-  <div>
+  <div v-highlight>
     <Header/>
     <NavigationBar />
 
@@ -19,3 +19,9 @@ import Header from './components/Header.vue'
     <SiteFooter />
   </div>
 </template>
+
+<style scoped>
+  #main {
+    display: flex;
+  }
+</style>
