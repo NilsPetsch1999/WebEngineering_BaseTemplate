@@ -51,15 +51,6 @@ const onSearchSubmit = (e: Event) => {
     border-radius: 4px;
 }
 
-::v-deep h1 {
-  font-family: 'Georgia', 'Times New Roman', serif;
-  font-size: 4rem;
-  font-style: italic;
-  font-weight: bold;
-  text-align: center;
-  color: #fff;
-  text-shadow: 2px 2px 4px #999, 4px 4px 8px #666;
-}
 
 .nav{
   height: 50px;
