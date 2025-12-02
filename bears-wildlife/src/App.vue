@@ -1,13 +1,15 @@
 <script setup lang="ts">
-import SiteHeader from './components/SiteHeader.vue';
+import NavigationBar from './components/NavigationBar.vue';
 import MainArticle from './components/MainArticle.vue';
 import SecondaryAside from './components/SecondaryAside.vue';
 import SiteFooter from './components/SiteFooter.vue';
+import Header from './components/Header.vue'
 </script>
 
 <template>
   <div>
-    <SiteHeader />
+    <Header/>
+    <NavigationBar />
 
     <main id="main">
       <MainArticle />
