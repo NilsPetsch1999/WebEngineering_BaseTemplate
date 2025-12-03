@@ -24,7 +24,7 @@ const onSearchSubmit = (e: Event) => {
 
       <form @submit="onSearchSubmit" style="display:flex;align-items:center;gap:10px;">
         <input id="q" type="search" v-model="query">
-        <button type="submit">Go</button>
+        <button id ="searchBtn" type="submit">Go</button>
       </form>
 
     </div>
@@ -40,8 +40,10 @@ const onSearchSubmit = (e: Event) => {
     color: white;
     font-size: 1.6rem;
     height: 32px;
+    width: 80px;
     margin : auto 10px ;
     border-radius: 4px;
+    cursor: pointer;
 }
 
 
@@ -104,6 +106,9 @@ form {
   color: #2a2a2a; 
   border-radius: 4px;
   border: green solid 1px;
+}
+button{
+
 }
 
 
