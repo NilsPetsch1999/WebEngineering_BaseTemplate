@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref, onMounted } from 'vue';
-import { fetchUrsidsWikitext, fetchImageUrlFromFile } from '../api/api.js';
-import { verifyImageUrl, placeholderImg } from '../api/utils.js';
+import { fetchUrsidsWikitext, fetchImageUrlFromFile } from '../../api/api.js';
+import { verifyImageUrl, placeholderImg } from '../../api/utils.js';
 
 interface Bear {
   name: string;
@@ -44,6 +44,8 @@ function extractBearsFromSpeciesTables(wikitext: string): Bear[] {
       });
     }
   }
+
+  console.log(bears); 
 
   return bears;
 }
@@ -97,13 +99,18 @@ async function loadBears() {
     }
 
     // Resolve images
-    const enriched = await Promise.all(
-      ordered.map(async (b) => {
-        const url = await safeImageUrl(b.imageFile);
-        const finalUrl = await verifyImageUrl(url);
-        return { ...b, image: finalUrl ?? placeholderImg };
-      })
-    );
+  const enriched = await Promise.all(
+    ordered.map(async (b) => {
+      const fileName = b.imageFile?.replace(/^File:/i, "") ?? null;
+      const wikiUrl = fileName ? await fetchImageUrlFromFile(fileName) : null;
+      const finalUrl = await verifyImageUrl(wikiUrl);
+
+      return {
+        ...b,
+        image: finalUrl ?? placeholderImg
+      };
+    })
+  );
 
     bears.value = enriched;
   } catch (err) {

@@ -26,7 +26,7 @@ const toggleComments = () => {
 };
 
 const handleSubmit = (payload: Comment) => {
-  comments.value.unshift(payload);
+  commnets.value.unshift(payload)
 };
 </script>
 

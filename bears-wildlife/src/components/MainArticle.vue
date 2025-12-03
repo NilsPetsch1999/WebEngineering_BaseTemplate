@@ -1,11 +1,11 @@
 <script setup lang="ts">
-import ArticleHeader from './ArticleHeader.vue';
-import BearTypesTable from './BearTypesTable.vue';
-import HabitatsSection from './HabitatsSection.vue';
-import MatingSection from './MatingSection.vue';
-import AuthorAside from './AuthorAside.vue';
-import CommentsSection from './CommentsSection.vue';
-import MoreBearsSection from './MoreBearsSection.vue';
+import ArticleHeader from './ArticleComponents/ArticleHeader.vue';
+import BearTypesTable from './ArticleComponents/BearTypesTable.vue';
+import HabitatsSection from './ArticleComponents/HabitatsSection.vue';
+import MatingSection from './ArticleComponents/MatingSection.vue';
+import AuthorAside from './ArticleComponents/AuthorAside.vue';
+import CommentsSection from './ArticleComponents/CommentsSection.vue';
+import MoreBearsSection from './ArticleComponents/MoreBearsSection.vue';
 </script>
 
 <template>
