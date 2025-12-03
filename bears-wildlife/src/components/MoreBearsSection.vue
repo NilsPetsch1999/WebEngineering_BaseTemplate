@@ -39,7 +39,7 @@ function extractBearsFromSpeciesTables(wikitext: string): Bear[] {
         name: nameMatch[1].trim(),
         binomial: binomMatch[1].trim(),
         imageFile: imgMatch ? imgMatch[1].trim() : null,
-        image: null,
+        image: imgMatch ? imgMatch[1].trim() : null,
         range: rangeMatch ? cleanWikiText(rangeMatch[1]) : '—',
       });
     }
@@ -149,5 +149,11 @@ onMounted(loadBears);
   background: #fff;
   padding: 1rem;
   border-radius: 8px;
+}
+
+img{
+  width: 100%;
+  height: auto;
+  border-radius: 4px;
 }
 </style>

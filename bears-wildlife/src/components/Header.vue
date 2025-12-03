@@ -15,9 +15,13 @@
   font-style: italic;
   font-weight: bold;
   text-align: center;
-  color: #fff;
+  color: black;
   text-shadow: 2px 2px 4px #999, 4px 4px 8px #666;
   margin: 10px;
+}
+
+p{
+  font-size: 2rem;
 }
 
 

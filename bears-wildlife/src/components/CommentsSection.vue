@@ -67,6 +67,7 @@ const handleSubmit = (payload: Comment) => {
   background-color: #def;
   padding: 10px;
   background-color: #def;
-    padding: 10px;
+  padding: 10px;
+  height: auto;
 }
 </style>
