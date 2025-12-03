@@ -20,4 +20,8 @@
         display: block; 
         border-radius: 4px;
     }
+    a{
+      font-size: 18px;
+      font-family: "Arial", sans-serif;
+    }
 </style>
