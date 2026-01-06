@@ -1,88 +1,31 @@
-// js/api.js
-const BASE = 'https://en.wikipedia.org/w/api.php';
-const ORIGIN = { origin: '*' };
+// src/api/api.ts
+// Frontend talks ONLY to Spring Boot backend
 
-const toQS = (
-  params:
-    | string
-    | string[][]
-    | Record<string, string>
-    | URLSearchParams
-    | undefined
-) => new URLSearchParams(params).toString();
+const BACKEND =
+  'http://localhost:8080';
 
-const fetchJSON = async (
-  params:
-    | string
-    | Record<string, string>
-    | URLSearchParams
-    | string[][]
-    | undefined
-) => {
-  const paramsObj =
-    typeof params === 'object' &&
-    !Array.isArray(params) &&
-    !(params instanceof URLSearchParams)
-      ? params
-      : {};
-  const url = `${BASE}?${toQS({ ...paramsObj, ...ORIGIN })}`;
-  const res = await fetch(url);
-  if (!res.ok)
-    throw new Error(
-      `HTTP ${res.status} while fetching ${params && typeof params === 'object' && 'action' in params ? (params as any).action : ''}`
-    );
-  return await res.json();
-};
- 
 /**
- * Fetch the wikitext for the "List_of_ursids" section that contains species tables.
- * (Section index 3 in the starter; we still guard & scan all sections for robustness.)
+ * Fetch RAW Wikipedia wikitext from backend
  */
-export const fetchUrsidsWikitext = async () => {
-  // Try typical section indices that contain the species table in this page.
-  const sectionsToTry = [3, 4, 2];
-  for (const section of sectionsToTry) {
-    try {
-      const data = await fetchJSON({
-        action: 'parse',
-        page: 'List_of_ursids',
-        prop: 'wikitext',
-        section: section.toString(),
-        format: 'json',
-      });
-      const wikitext = data?.parse?.wikitext?.['*'];
-      console.log(wikitext)
-      if (wikitext?.includes('{{Species table')) return wikitext;
-    } catch {
-      // try next section
-    }
+export const fetchUrsidsWikitext = async (): Promise<string> => {
+  const res = await fetch(`${BACKEND}/api/wiki/ursids`);
+  if (!res.ok) {
+    throw new Error('Failed to load ursids wikitext');
   }
-  // Fallback: whole page (heavier but safer)
-  const whole = await fetchJSON({
-    action: 'parse',
-    page: 'List_of_ursids',
-    prop: 'wikitext',
-    format: 'json',
-  });
-  return whole?.parse?.wikitext?.['*'] ?? '';
+  return await res.text(); // <-- IMPORTANT: text, not JSON
 };
 
-export const fetchImageUrlFromFile = async (fileName: any) => {
-  const data = await fetchJSON({
-    action: 'query',
-    titles: `File:${fileName}`,
-    prop: 'imageinfo',
-    iiprop: 'url',
-    format: 'json',
-  });
+/**
+ * Resolve File:... to image URL (via backend)
+ */
+export const fetchImageUrlFromFile = async (fileName: string) => {
+  const res = await fetch(
+    `${BACKEND}/api/wiki/image/${encodeURIComponent(fileName)}`
+  );
+  if (!res.ok) return null;
+
+  const data = await res.json();
   const pages = data?.query?.pages || {};
-  const first = Object.values(pages)[0];
-  const url =
-    first &&
-    typeof first === 'object' &&
-    'imageinfo' in first &&
-    Array.isArray((first as any).imageinfo)
-      ? (first as any).imageinfo[0]?.url || null
-      : null;
-  return url;
+  const first: any = Object.values(pages)[0];
+  return first?.imageinfo?.[0]?.url ?? null;
 };

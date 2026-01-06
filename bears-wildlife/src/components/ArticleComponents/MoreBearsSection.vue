@@ -130,7 +130,7 @@ onMounted(loadBears);
 
     <p v-if="isLoading">Loading bears…</p>
 
-    <div class="bears-grid" data-bears>
+    <div  v-if="bears.length" class="bears-grid" data-bears>
       <article
         v-for="bear in bears"
         :key="bear.binomial"
